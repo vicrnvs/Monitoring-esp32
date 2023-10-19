@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+
+  monitoring:
+
+    container_name: monitoring
+    image: monitoring-jvm:1.0
+    build:
+      context: ./
+      dockerfile: ./src/main/docker/Dockerfile.jvm
+      args:
+        DB_HEROKU_SPLIT: "true"
+        DATABASE_URL: "postgres://innzsnpckgukxs:940d57cd2b95ae44ffa3af8e69b8959dda4f24c5158d83bd26c050527c1cbe54@ec2-34-195-163-197.compute-1.amazonaws.com:5432/ddmfiatsd0p11c"
+    
+    ports:
+      - 8080:8080
+    networks:
+      - heroku-net
+    environment:
+      - DB_ECHO_VALUES=true      
+      - PORT=8080
+        ### Using the DB_HEROKU_SPLIT = true  ###
+      - DB_HEROKU_SPLIT=true
+      - DATABASE_URL=postgres://innzsnpckgukxs:940d57cd2b95ae44ffa3af8e69b8959dda4f24c5158d83bd26c050527c1cbe54@ec2-34-195-163-197.compute-1.amazonaws.com:5432/ddmfiatsd0p11c
+        ### Using the DB_HEROKU_SPLIT = false ###
+      # - DB_HEROKU_SPLIT=false
+      # - DB_JDBC_URL=jdbc:postgresql://heroku-postgresql:5432/postgres
+      # - DB_JDBC_USER=postgres
+      # - DB_JDBC_PASSWORD=postgres
+
+
+networks:
+  heroku-net:
+    driver: bridge

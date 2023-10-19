@@ -1,0 +1,1 @@
+ALTER TABLE esp32 ALTER COLUMN identificador TYPE CHAR(10);
